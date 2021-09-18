@@ -5,11 +5,15 @@ import {
   Container,
   Logo,
   Background,
-  Frame,
   ButtonLink,
+  Dropdown,
   Feature,
   Text,
+  Link,
+  Picture,
+  Profile,
   FeatureCallOut,
+  Group,
 } from "./styles/header";
 
 export default function Header({ bg = true, children, ...restProps }) {
@@ -20,8 +24,20 @@ Header.Frame = function HeaderFrame({ children, ...restProps }) {
   return <Container {...restProps}>{children}</Container>;
 };
 
+Header.Group = function HeaderGroup({ children, ...restProps }) {
+  return <Group {...restProps}>{children}</Group>;
+};
+
 Header.Feature = function HeaderFeature({ children, ...restProps }) {
   return <Feature {...restProps}>{children}</Feature>;
+};
+
+Header.Picture = function HeaderPicture({ src, ...restProps }) {
+  return <Picture {...restProps} src={`/images/users/${src}.png`} />;
+};
+
+Header.Profile = function HeaderProfile({ children, ...restProps }) {
+  return <Profile {...restProps}>{children}</Profile>;
 };
 
 Header.FeatureCallOut = function HeaderFeatureCallOut({
@@ -31,8 +47,16 @@ Header.FeatureCallOut = function HeaderFeatureCallOut({
   return <FeatureCallOut {...restProps}>{children}</FeatureCallOut>;
 };
 
+Header.TextLink = function HeaderTextLink({ children, ...restProps }) {
+  return <Link {...restProps}>{children}</Link>;
+};
+
 Header.Text = function HeaderText({ children, ...restProps }) {
   return <Text {...restProps}>{children}</Text>;
+};
+
+Header.Dropdown = function HeaderDropdown({ children, ...restProps }) {
+  return <Dropdown {...restProps}>{children}</Dropdown>;
 };
 
 Header.ButtonLink = function HeaderButtonLink({ children, ...restProps }) {
