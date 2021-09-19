@@ -42,10 +42,6 @@ export function BrowseContainer({ slides }) {
     } else {
       setSlideRows(category);
     }
-
-    // return () => {
-    //   cleanup;
-    // };
   }, [searchTerm]);
 
   return profile.displayName ? (
