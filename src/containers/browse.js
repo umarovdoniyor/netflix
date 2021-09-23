@@ -1,17 +1,17 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Fuse from "fuse.js";
-import { SelectProfileContainer } from "./profiles";
-import { FooterContainer } from "../containers/footer";
-import { FirebaseContext } from "../context/firebase";
 import { Card, Header, Loading, Player } from "../components";
 import * as ROUTES from "../constants/routes";
 import logo from "../logo.svg";
+import { FirebaseContext } from "../context/firebase";
+import { SelectProfileContainer } from "./profiles";
+import { FooterContainer } from "./footer";
 
 export function BrowseContainer({ slides }) {
   const [category, setCategory] = useState("series");
-  const [searchTerm, setSearchTerm] = useState("");
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const [slideRows, setSlideRows] = useState([]);
 
   const { firebase } = useContext(FirebaseContext);
@@ -25,28 +25,25 @@ export function BrowseContainer({ slides }) {
 
   useEffect(() => {
     setSlideRows(slides[category]);
-    // return () => {
-    //   cleanup;
-    // };
   }, [slides, category]);
 
   useEffect(() => {
     const fuse = new Fuse(slideRows, {
       keys: ["data.description", "data.title", "data.genre"],
     });
-
     const results = fuse.search(searchTerm).map(({ item }) => item);
 
     if (slideRows.length > 0 && searchTerm.length > 3 && results.length > 0) {
       setSlideRows(results);
     } else {
-      setSlideRows(category);
+      setSlideRows(slides[category]);
     }
   }, [searchTerm]);
 
   return profile.displayName ? (
     <>
       {loading ? <Loading src={user.photoURL} /> : <Loading.ReleaseBody />}
+
       <Header src="joker1" dontShowOnSmallViewPort>
         <Header.Frame>
           <Header.Group>
@@ -64,7 +61,6 @@ export function BrowseContainer({ slides }) {
               Films
             </Header.TextLink>
           </Header.Group>
-
           <Header.Group>
             <Header.Search
               searchTerm={searchTerm}
@@ -86,6 +82,7 @@ export function BrowseContainer({ slides }) {
             </Header.Profile>
           </Header.Group>
         </Header.Frame>
+
         <Header.Feature>
           <Header.FeatureCallOut>Watch Joker Now</Header.FeatureCallOut>
           <Header.Text>
@@ -101,7 +98,7 @@ export function BrowseContainer({ slides }) {
 
       <Card.Group>
         {slideRows.map((slideItem) => (
-          <Card key={`${category} - ${slideItem.title.toLowerCase()}`}>
+          <Card key={`${category}-${slideItem.title.toLowerCase()}`}>
             <Card.Title>{slideItem.title}</Card.Title>
             <Card.Entities>
               {slideItem.data.map((item) => (
